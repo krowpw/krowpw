@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="canvas">не работает в вашем браузере</canvas>
+  </body>
+  <script>
+    let canvas = document.getElementById("canvas");
+    let pen = canvas.getContext("2d");
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    function random(min, max) {
+      return Math.floor(Math.random() * (max - min + 1) - min);
+    }
+
+    function getRandomColor() {
+      let letters = "01234567889ABCDEF";
+      let color = "#";
+      for (let i = 0; i < 6; i++) {
+        color += letters[random(0, letters.length)];
+      }
+      return color;
+    }
+
+    let count = 0;
+    let scale = 5;
+
+    function draw() {
+      let angle = count * 2 + 100;
+      let radius = scale * Math.sqrt(count) + 20;
+      let positionX = radius * Math.sin(angle) + canvas.width / 2;
+      let positionY = radius * Math.cos(angle) + canvas.height / 2;
+
+      pen.beginPath();
+      pen.strokeStyle = getRandomColor();
+      pen.fillStyle = getRandomColor();
+      pen.arc(positionX, positionY, 20, 0, Math.PI * 2);
+      pen.fill();
+      pen.stroke();
+      pen.closePath();
+
+      console.log(count);
+      count++;
+    }
+    function animate() {
+      draw();
+      window.requestAnimationFrame(animate);
+    }
+
+    animate();
+  </script>
+</html>
